@@ -1,0 +1,81 @@
+<!-- <div class="w-full mx-auto bg-white p-6 rounded-lg shadow-md">
+    <div class="max-w-md mx-auto border-2 p-4 rounded-xl shadow-md">
+      <div class="flex gap-4 ma">
+        <img *ngIf="profilePhotoUrl" [src]="profilePhotoUrl" alt="Profile Photo" class="w-1/2 rounded-full">  
+        <div class="flex flex-col gap-3 justify-center">
+          <h1 class="text-2xl font-bold text-center">{{ username }}</h1>
+          <p *ngIf="bio" class="italic text-zinc-500 text-center">{{ bio }}</p>
+        </div>
+      </div>
+      <div class="text-center mt-2 text-lg">
+        <p *ngIf="twitter" class="">Twitter: <a class='text-blue-500 hover:text-blue-400 hover:underline' [href]="'https://twitter.com/' + twitter" target="_blank">@{{ twitter }}</a></p>
+        <p *ngIf="git">Github: <a class='text-blue-500 hover:text-blue-400 hover:underline' [href]="git" target="_blank">{{ git }}</a></p>
+      </div>
+    </div>
+    <div class="w-full mt-4">
+      <h2 class="text-3xl font-bold mb-4 text-center underline">Repositories</h2>
+      <div class="grid grid-cols-3 gap-y-3">
+        <div *ngFor="let repo of repositories" class="max-w-md border-2 rounded-md border-slate-600 p-1">
+          <h1 class="ml-2 text-2xl font-semibold" >{{ repo.name }}</h1>
+          <div class="flex flex-wrap gap-4 m-2 max-h-max">
+            <h4 *ngFor="let lang of repo.languages" class="text-base bg-zinc-900 p-2 h-10 text-white rounded-md" >{{ lang }}</h4>
+          </div> 
+        </div>
+      </div>
+    </div>
+    <div class="pagination flex gap-4 justify-end text-white mr-10 mt-5">
+      <select class="border-2 p-2 rounded-md bg-zinc-800 " [(ngModel)]="itemsPerPage" (ngModelChange)="changeItemsPerPage($event)">
+        <option *ngFor="let option of itemsPerPageOptions" [value]="option" >{{ option }}</option>
+      </select>
+      
+      <button *ngIf="currentPage > 1" class="bg-zinc-700 p-2 rounded-md hover:bg-zinc-600" (click)="changePage(-1)">Previous</button>
+      <button *ngIf="hasMoreRepos" class="bg-zinc-700 p-2 rounded-md hover:bg-zinc-600" (click)="changePage(1)" >Next</button>
+      
+    </div>
+</div>
+   -->
+
+<div class="p-6 rounded-lg shadow-md">
+  <div class="max-w-md mx-auto border-2 p-4 rounded-xl shadow-md">
+    <div class="flex gap-4">
+      <div *ngIf="loading" class="w-32 h-32 bg-gray-200 rounded-full animate-pulse"></div>
+      <img *ngIf="!loading && profilePhotoUrl" [src]="profilePhotoUrl" alt="Profile Photo" class="w-1/2 rounded-full">
+      <div class="flex flex-col gap-3 justify-center">
+        <div *ngIf="loading" class="h-6 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+        <h1 *ngIf="!loading" class="text-2xl font-bold text-center">{{ username }}</h1>
+        <div *ngIf="loading" class="h-4 bg-gray-200 rounded w-1/2 animate-pulse"></div>
+        <p *ngIf="!loading && bio" class="italic text-zinc-500 text-center">{{ bio }}</p>
+      </div>
+    </div>
+    <div class="text-center mt-2 text-lg">
+      <div *ngIf="loading" class="h-4 bg-gray-200 rounded w-1/3 mx-auto animate-pulse"></div>
+      <p *ngIf="!loading && twitter" class="">Twitter: <a class='text-blue-500 hover:text-blue-400 hover:underline' [href]="'https://twitter.com/' + twitter" target="_blank">@{{ twitter }}</a></p>
+      <div *ngIf="loading" class="h-4 bg-gray-200 rounded w-1/3 mx-auto animate-pulse mt-2"></div>
+      <p *ngIf="!loading && git">Github: <a class='text-blue-500 hover:text-blue-400 hover:underline' [href]="git" target="_blank">{{ git }}</a></p>
+    </div>
+  </div>
+  <div class="w-full mt-4">
+    <h2 *ngIf="!loading" class="text-3xl font-bold mb-4 text-center underline">Repositories</h2>
+    <div class="grid grid-cols-3 gap-y-3">
+      <div *ngIf="loading" class="col-span-3 space-y-4">
+        <div class="h-6 bg-gray-200 rounded animate-pulse"></div>
+        <div class="h-6 bg-gray-200 rounded animate-pulse"></div>
+        <div class="h-6 bg-gray-200 rounded animate-pulse"></div>
+      </div>
+      <div *ngFor="let repo of repositories" class="max-w-md border-2 rounded-md border-slate-600 p-1">
+        <h1 *ngIf="!loading" class="ml-2 text-2xl font-semibold">{{ repo.name }}</h1>
+        <div *ngIf="!loading" class="flex flex-wrap gap-4 m-2 max-h-max">
+          <h4 *ngFor="let lang of repo.languages" class="text-base bg-zinc-900 p-2 h-10 text-white rounded-md">{{ lang }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!loading" class="pagination flex gap-4 justify-end text-white mr-10 mt-5">
+    <select class="border-2 p-2 rounded-md bg-zinc-800" [(ngModel)]="itemsPerPage" *ngIf="!loading" (ngModelChange)="changeItemsPerPage($event)">
+      <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
+    </select>
+    <button *ngIf="currentPage > 1 && !loading" class="bg-zinc-700 p-2 rounded-md hover:bg-zinc-600" (click)="changePage(-1)">Previous</button>
+    <button *ngIf="hasMoreRepos && !loading" class="bg-zinc-700 p-2 rounded-md hover:bg-zinc-600" (click)="changePage(1)">Next</button>
+  </div>
+</div>
+  

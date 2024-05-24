@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from './services/api.service';
+import { GithubService } from './services/api.service';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +8,10 @@ import { ApiService } from './services/api.service';
 })
 export class AppComponent implements OnInit{
   constructor(
-    private apiService: ApiService
+    private apiService: GithubService
   ) {}
 
   ngOnInit() {
-    this.apiService.getUser('johnpapa').subscribe(console.log);
+    this.apiService.getUserProfile('johnpapa').subscribe(console.log);
   }
 }
