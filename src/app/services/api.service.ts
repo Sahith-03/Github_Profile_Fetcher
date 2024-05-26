@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders,HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 import { forkJoin, of } from 'rxjs';
 import { map, mergeMap,catchError } from 'rxjs/operators';
 @Injectable({
@@ -8,15 +9,15 @@ import { map, mergeMap,catchError } from 'rxjs/operators';
 })
 export class GithubService {
   private apiUrl = 'https://api.github.com';
-  // private token = environment.githubToken;
+  private token = environment.githubToken;
 
   constructor(private http: HttpClient) { }
 
-  // private getHeaders(): HttpHeaders {
-  //   return new HttpHeaders({
-  //     'Authorization': `Bearer ${this.token}`
-  //   });
-  // }
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+  }
 
   checkUsernameExists(username: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/users/${username}`).pipe(
@@ -40,7 +41,7 @@ export class GithubService {
   }
 
   getUserProfile(username: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/users/${username}`);
+    return this.http.get<any>(`${this.apiUrl}/users/${username}`, { headers: this.getHeaders() });
   }
 
   getUserRepositories(username: string, page: number, perPage: number): Observable<any[]> {
@@ -48,10 +49,10 @@ export class GithubService {
     .set('page', page.toString())
     .set('per_page', perPage.toString());
 
-    return this.http.get<any[]>(`${this.apiUrl}/users/${username}/repos`).pipe(
+    return this.http.get<any[]>(`${this.apiUrl}/users/${username}/repos`, { headers: this.getHeaders(), params }).pipe(
       mergeMap(repos => {
         const observables = repos.map(repo => {
-          return this.http.get<any>(`${this.apiUrl}/repos/${username}/${repo.name}/languages`).pipe(
+          return this.http.get<any>(`${this.apiUrl}/repos/${username}/${repo.name}/languages`, { headers: this.getHeaders() }).pipe(
             map(languages => {
               return {
                 ...repo,
@@ -67,7 +68,7 @@ export class GithubService {
   
 
   getRepositoryDetails(username: string, repo: string): Observable<any> {
-    return this.http.get<any[]>(`${this.apiUrl}/repos/${username}/${repo}/languages`);
+    return this.http.get<any[]>(`${this.apiUrl}/repos/${username}/${repo}/languages`, { headers: this.getHeaders() });
   }
   // Other methods for fetching repository details, handling errors, etc.
 }
