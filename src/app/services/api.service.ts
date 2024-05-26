@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders,HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
 import { forkJoin, of } from 'rxjs';
 import { map, mergeMap,catchError } from 'rxjs/operators';
 @Injectable({
