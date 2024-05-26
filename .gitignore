@@ -42,5 +42,4 @@ testem.log
 Thumbs.db
 
 # Personal Access Tokens
-src/app/environments/environment-prod.ts
-src/app/environments/environment.ts
+/src/environments/environment.ts
